@@ -6,15 +6,25 @@ fn main() {
 }
 
 fn menu() {
-    let mut menu = youchoose::Menu::new(0..4)
+    let mut menu = youchoose::Menu::new(1..5)
         .preview(preview_menu)
         .preview_pos(youchoose::ScreenSide::Bottom, 0.4)
         .preview_label("Choice Preview".to_string())
         .icon("->");
     let choice = menu.show();
+    let choice: usize = choice[0];
 
-    let choice_val: &usize = &choice[0];
-    println!("Your choice was {}.", choice_val);
+    if choice == 0 {
+        println!("You chose 1");
+    } else if choice == 1 {
+        println!("You chose 2");
+    } else if choice == 2 {
+        println!("You chose 3");
+    } else if choice == 3 {
+        println!("You chose 4");
+    } else {
+        println!("Your choice was {}.", choice);
+    }
 }
 
 fn preview_menu(num: i32) -> String {
