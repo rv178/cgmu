@@ -6,7 +6,7 @@ fn main() {
 }
 
 fn menu() {
-    let mut menu = youchoose::Menu::new(1..5)
+    let mut menu = youchoose::Menu::new(0..4)
         .preview(preview_menu)
         .preview_pos(youchoose::ScreenSide::Bottom, 0.4)
         .preview_label("Choice Preview".to_string())
