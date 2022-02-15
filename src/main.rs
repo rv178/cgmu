@@ -15,13 +15,13 @@ fn menu() {
     let choice: usize = choice[0];
 
     if choice == 0 {
-        println!("You chose 1");
+        println!("User chose 'performance'.");
     } else if choice == 1 {
-        println!("You chose 2");
+        println!("User chose 'ondemand'.");
     } else if choice == 2 {
-        println!("You chose 3");
+        println!("User chose 'schedutil'.");
     } else if choice == 3 {
-        println!("You chose 4");
+        println!("User chose 'powersave'.");
     } else {
         println!("Your choice was {}.", choice);
     }
