@@ -25,3 +25,7 @@ make
 ```
 sudo ./bin/cgmu
 ```
+
+## Screenshots
+
+![Alt text](./assets/ss1.png)
