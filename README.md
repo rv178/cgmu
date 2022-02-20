@@ -2,9 +2,6 @@
 
 CPU governor management utility
 
-## WIP
-
--   but hey it works
 
 ## Install:
 

@@ -1,8 +1,9 @@
 extern crate num_cpus;
+
+use youchoose;
 use nix::unistd::Uid;
 use std::fs;
 use std::io::Write;
-use youchoose;
 
 fn main() {
     if Uid::current().is_root() {
@@ -26,25 +27,25 @@ fn menu() {
             if let Err(e) = push_prof("performance") {
                 println!("An error occured! {}", e);
             }
-            println!("Use chose 'performance'");
+            println!("Use chose 'performance'.");
         },
         1 => {
             if let Err(e) = push_prof("ondemand") {
                 println!("An error occured! {}", e);
             }
-            println!("Use chose 'ondemand'");
+            println!("Use chose 'ondemand'.");
         },
         2 => {
             if let Err(e) = push_prof("schedutil") {
                 println!("An error occured! {}", e);
             }
-            println!("Use chose 'schedutil'");
+            println!("Use chose 'schedutil'.");
         },
         3 => {
             if let Err(e) = push_prof("powersave") {
                 println!("An error occured! {}", e);
             }
-            println!("Use chose 'powersave'");
+            println!("Use chose 'powersave'.");
         },
         _ => println!("Choose a valid option!!"),
     }
