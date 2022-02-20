@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 youchoose = "0.1.1"
 nix = "0.23.1"
+num_cpus = "1.13.1"

@@ -1,12 +1,14 @@
+extern crate num_cpus;
 use nix::unistd::Uid;
-use std::process::Command;
+use std::fs;
+use std::io::Write;
 use youchoose;
 
 fn main() {
-    if !Uid::current().is_root() {
-        println!("CGMU must be run as root!");
-    } else {
+    if Uid::current().is_root() {
         menu();
+    } else {
+        println!("CGMU must be run as root!");
     }
 }
 
@@ -19,49 +21,61 @@ fn menu() {
     let choice = menu.show();
     let choice: usize = choice[0];
 
-    if choice == 0 {
-        let _output = Command::new("sh")
-            .arg("-c")
-            .arg("echo 'performance' | tee /sys/devices/system/cpu/*/cpufreq/scaling_governor")
-            .output()
-            .expect("Failed to execute command");
-        println!("User chose 'performance'.");
-    } else if choice == 1 {
-        let _output = Command::new("sh")
-            .arg("-c")
-            .arg("echo 'ondemand' | tee /sys/devices/system/cpu/*/cpufreq/scaling_governor")
-            .output()
-            .expect("Failed to execute command");
-        println!("User chose 'ondemand'.");
-    } else if choice == 2 {
-        let _output = Command::new("sh")
-            .arg("-c")
-            .arg("echo 'schedutil' | tee /sys/devices/system/cpu/*/cpufreq/scaling_governor")
-            .output()
-            .expect("Failed to execute command");
-        println!("User chose 'schedutil'.");
-    } else if choice == 3 {
-        let _output = Command::new("sh")
-            .arg("-c")
-            .arg("echo 'powersave' | tee /sys/devices/system/cpu/*/cpufreq/scaling_governor")
-            .output()
-            .expect("Failed to execute command");
-        println!("User chose 'powersave'.");
-    } else {
-        println!("Your choice was {}.", choice);
+    match choice {
+        0 => {
+            if let Err(e) = push_prof("performance") {
+                println!("An error occured! {}", e);
+            }
+            println!("Use chose 'performance'");
+        },
+        1 => {
+            if let Err(e) = push_prof("ondemand") {
+                println!("An error occured! {}", e);
+            }
+            println!("Use chose 'ondemand'");
+        },
+        2 => {
+            if let Err(e) = push_prof("schedutil") {
+                println!("An error occured! {}", e);
+            }
+            println!("Use chose 'schedutil'");
+        },
+        3 => {
+            if let Err(e) = push_prof("powersave") {
+                println!("An error occured! {}", e);
+            }
+            println!("Use chose 'powersave'");
+        },
+        _ => println!("Choose a valid option!!"),
     }
-}
 
-fn preview_menu(num: i32) -> String {
-    let mut buffer = String::new();
-    if num == 0 {
-        buffer.push_str(&format!("Performance\n"));
-    } else if num == 1 {
-        buffer.push_str(&format!("Ondemand\n"));
-    } else if num == 2 {
-        buffer.push_str(&format!("Schedutil\n"));
-    } else if num == 3 {
-        buffer.push_str(&format!("Powersave\n"));
+    fn push_prof(cmd: &str) -> std::io::Result<()> {
+        let num = num_cpus::get();
+
+        for n in 0..num {
+            let path = format!("/sys/devices/system/cpu/cpu{}/cpufreq/scaling_governor", n);
+            let mut f = fs::OpenOptions::new()
+                .write(true)
+                .truncate(true)
+                .open(path)?;
+            f.write_all(cmd.as_bytes())?;
+            f.flush()?;
+        }
+
+        Ok(())
     }
-    buffer
+
+    fn preview_menu(num: i32) -> String {
+        let mut buffer = String::new();
+        if num == 0 {
+            buffer.push_str(&format!("Performance\n"));
+        } else if num == 1 {
+            buffer.push_str(&format!("Ondemand\n"));
+        } else if num == 2 {
+            buffer.push_str(&format!("Schedutil\n"));
+        } else if num == 3 {
+            buffer.push_str(&format!("Powersave\n"));
+        }
+        buffer
+    }
 }
