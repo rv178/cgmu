@@ -2,7 +2,6 @@
 
 CPU governor management utility (rust rewrite)
 
-
 ## Install:
 
 ```
@@ -23,4 +22,4 @@ sudo ./bin/cgmu
 
 ## Screenshots
 
-![Alt text](./assets/ss1.png)
+![Alt text](https://media.discordapp.net/attachments/773896223773032490/945276903810543666/ss1.png)
