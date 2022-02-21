@@ -1,16 +1,31 @@
 extern crate num_cpus;
 
 use nix::unistd::Uid;
-use std::fs;
+use std::env::args;
+use std::fs::OpenOptions;
 use std::io::Write;
+use std::process::exit;
 use youchoose;
 
 fn main() {
-    if Uid::current().is_root() {
-        menu();
-    } else {
-        println!("CGMU must be run as root!");
+    for arg in args().skip(1) {
+        let arg = &arg[..];
+        match arg {
+            "-h" | "--help" => {
+                help();
+            }
+            "-m" | "--menu" => {
+                perm_check();
+                menu();
+            }
+            _ => {
+                println!("Invalid option '{}'.", arg.to_string());
+                exit(1);
+            }
+        }
     }
+    perm_check();
+    menu();
 }
 
 fn menu() {
@@ -58,10 +73,7 @@ fn menu() {
                 "/sys/devices/system/cpu/cpu{}/cpufreq/scaling_governor",
                 core
             );
-            let mut f = fs::OpenOptions::new()
-                .write(true)
-                .truncate(true)
-                .open(path)?;
+            let mut f = OpenOptions::new().write(true).truncate(true).open(path)?;
             f.write_all(cmd.as_bytes())?;
             f.flush()?;
         }
@@ -82,4 +94,25 @@ fn menu() {
         }
         buffer
     }
+}
+
+fn perm_check() {
+    if Uid::current().is_root() {
+        return;
+    } else {
+        println!("CGMU must be run as root! [Pass the -h flag to view the help message]");
+        exit(1);
+    }
+}
+
+fn help() {
+    let help_msg = format!(
+        "
+CGMU - CPU governor management utility
+[-h, --help] => show this message
+[-m, --menu] => show an interactive menu
+                           "
+    );
+    println!("{}", help_msg);
+    exit(1);
 }
