@@ -1,11 +1,9 @@
 # CGMU
 
-CPU governor management utility
+CPU governor management utility (rust rewrite)
 
 
 ## Install:
-
--   A precompiled binary is available in `bin/` but if you wanna manually compile then:
 
 ```
 rm -rf bin
