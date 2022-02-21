@@ -51,10 +51,10 @@ fn menu() {
     }
 
     fn push_prof(cmd: &str) -> std::io::Result<()> {
-        let num = num_cpus::get();
+        let cores = num_cpus::get();
 
-        for n in 0..num {
-            let path = format!("/sys/devices/system/cpu/cpu{}/cpufreq/scaling_governor", n);
+        for core in 0..cores {
+            let path = format!("/sys/devices/system/cpu/cpu{}/cpufreq/scaling_governor", core);
             let mut f = fs::OpenOptions::new()
                 .write(true)
                 .truncate(true)
