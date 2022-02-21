@@ -1,9 +1,9 @@
 extern crate num_cpus;
 
-use youchoose;
 use nix::unistd::Uid;
 use std::fs;
 use std::io::Write;
+use youchoose;
 
 fn main() {
     if Uid::current().is_root() {
@@ -28,25 +28,25 @@ fn menu() {
                 println!("An error occured! {}", e);
             }
             println!("Use chose 'performance'.");
-        },
+        }
         1 => {
             if let Err(e) = push_prof("ondemand") {
                 println!("An error occured! {}", e);
             }
             println!("Use chose 'ondemand'.");
-        },
+        }
         2 => {
             if let Err(e) = push_prof("schedutil") {
                 println!("An error occured! {}", e);
             }
             println!("Use chose 'schedutil'.");
-        },
+        }
         3 => {
             if let Err(e) = push_prof("powersave") {
                 println!("An error occured! {}", e);
             }
             println!("Use chose 'powersave'.");
-        },
+        }
         _ => println!("Choose a valid option!!"),
     }
 
@@ -54,7 +54,10 @@ fn menu() {
         let cores = num_cpus::get();
 
         for core in 0..cores {
-            let path = format!("/sys/devices/system/cpu/cpu{}/cpufreq/scaling_governor", core);
+            let path = format!(
+                "/sys/devices/system/cpu/cpu{}/cpufreq/scaling_governor",
+                core
+            );
             let mut f = fs::OpenOptions::new()
                 .write(true)
                 .truncate(true)
