@@ -42,25 +42,25 @@ fn menu() {
             if let Err(e) = push_prof("performance") {
                 println!("An error occured! {}", e);
             }
-            println!("Use chose 'performance'.");
+            println!("User chose 'performance'.");
         }
         1 => {
             if let Err(e) = push_prof("ondemand") {
                 println!("An error occured! {}", e);
             }
-            println!("Use chose 'ondemand'.");
+            println!("User chose 'ondemand'.");
         }
         2 => {
             if let Err(e) = push_prof("schedutil") {
                 println!("An error occured! {}", e);
             }
-            println!("Use chose 'schedutil'.");
+            println!("User chose 'schedutil'.");
         }
         3 => {
             if let Err(e) = push_prof("powersave") {
                 println!("An error occured! {}", e);
             }
-            println!("Use chose 'powersave'.");
+            println!("User chose 'powersave'.");
         }
         _ => println!("Choose a valid option!!"),
     }
