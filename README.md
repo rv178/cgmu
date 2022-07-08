@@ -2,17 +2,16 @@
 
 CPU governor management utility (rust rewrite)
 
-## Install:
+## Compiling
 
 ```
-rm -rf bin
-make setup
-make
+bake setup
+bake release
 ```
 
 ## Build dependencies
 
-`rustup` and `make`
+`rustup` and [baker](https://github.com/rv178/baker) (optional)
 
 ## Running
 
